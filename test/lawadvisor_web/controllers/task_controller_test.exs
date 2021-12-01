@@ -27,7 +27,7 @@ defmodule LawadvisorWeb.TaskControllerTest do
   describe "View tasks" do
     test "with valid user with tasks", %{conn: conn, tasks: tasks} do
       conn = get(conn, Routes.task_path(conn, :view))
-      assert json_response(conn, 200) == tasks
+      assert json_response(conn, 200)["tasks"] == tasks
     end
 
     test "with valid user but no tasks" do
@@ -40,7 +40,7 @@ defmodule LawadvisorWeb.TaskControllerTest do
         |> put_req_header("authorization", "Bearer #{token}")
 
       conn = get(conn, Routes.task_path(conn, :view))
-      assert json_response(conn, 200) == "No tasks to be viewed for this user"
+      assert json_response(conn, 200)["message"] == "No tasks to be viewed for this user"
     end
   end
 
@@ -51,10 +51,10 @@ defmodule LawadvisorWeb.TaskControllerTest do
       }
 
       conn = post(conn, Routes.task_path(conn, :add), params)
-      assert json_response(conn, 200) == "Successfully added task"
+      assert json_response(conn, 200)["message"] == "Successfully added task"
 
       conn = get(conn, Routes.task_path(conn, :view))
-      assert json_response(conn, 200) == [
+      assert json_response(conn, 200)["tasks"] == [
         %{
           "details" => "Example Task 1",
           "task_no" => 1
@@ -85,10 +85,10 @@ defmodule LawadvisorWeb.TaskControllerTest do
       }
 
       conn = post(conn, Routes.task_path(conn, :add), params)
-      assert json_response(conn, 200) == "Successfully added task"
+      assert json_response(conn, 200)["message"] == "Successfully added task"
 
       conn = get(conn, Routes.task_path(conn, :view))
-      assert json_response(conn, 200) == [
+      assert json_response(conn, 200)["tasks"] == [
         %{
           "details" => "Example Task 5",
           "task_no" => 1
@@ -148,7 +148,7 @@ defmodule LawadvisorWeb.TaskControllerTest do
   describe "Remove task" do
     test "with valid user and valid task no", %{conn: conn} do
       conn = delete(conn, Routes.task_path(conn, :remove, 1))
-      assert json_response(conn, 200) == "Successfully removed task"
+      assert json_response(conn, 200)["message"] == "Successfully removed task"
     end
 
     test "with valid user and invalid task no", %{conn: conn} do
@@ -173,10 +173,10 @@ defmodule LawadvisorWeb.TaskControllerTest do
         details: "Updated Task 1"
       }
       conn = post(conn, Routes.task_path(conn, :update, params))
-      assert json_response(conn, 200) == "Successfully updated task"
+      assert json_response(conn, 200)["message"] == "Successfully updated task"
 
       conn = get(conn, Routes.task_path(conn, :view))
-      assert json_response(conn, 200) == [
+      assert json_response(conn, 200)["tasks"] == [
         %{
           "details" => "Updated Task 1",
           "task_no" => 1
@@ -227,10 +227,10 @@ defmodule LawadvisorWeb.TaskControllerTest do
       }
 
       conn = post(conn, Routes.task_path(conn, :move), params)
-      assert json_response(conn, 200) == "Successfully moved task"
+      assert json_response(conn, 200)["message"] == "Successfully moved task"
 
       conn = get(conn, Routes.task_path(conn, :view))
-      assert json_response(conn, 200) == [
+      assert json_response(conn, 200)["tasks"] == [
         %{
           "details" => "Example Task 2",
           "task_no" => 1
@@ -257,10 +257,10 @@ defmodule LawadvisorWeb.TaskControllerTest do
       }
 
       conn = post(conn, Routes.task_path(conn, :move), params)
-      assert json_response(conn, 200) == "Successfully moved task"
+      assert json_response(conn, 200)["message"] == "Successfully moved task"
 
       conn = get(conn, Routes.task_path(conn, :view))
-      assert json_response(conn, 200) == [
+      assert json_response(conn, 200)["tasks"] == [
         %{
           "details" => "Example Task 1",
           "task_no" => 1
@@ -287,10 +287,10 @@ defmodule LawadvisorWeb.TaskControllerTest do
       }
 
       conn = post(conn, Routes.task_path(conn, :move), params)
-      assert json_response(conn, 200) == "Successfully moved task"
+      assert json_response(conn, 200)["message"] == "Successfully moved task"
 
       conn = get(conn, Routes.task_path(conn, :view))
-      assert json_response(conn, 200) == [
+      assert json_response(conn, 200)["tasks"] == [
         %{
           "details" => "Example Task 1",
           "task_no" => 1
@@ -317,10 +317,10 @@ defmodule LawadvisorWeb.TaskControllerTest do
       }
 
       conn = post(conn, Routes.task_path(conn, :move), params)
-      assert json_response(conn, 200) == "Successfully moved task"
+      assert json_response(conn, 200)["message"] == "Successfully moved task"
 
       conn = get(conn, Routes.task_path(conn, :view))
-      assert json_response(conn, 200) == [
+      assert json_response(conn, 200)["tasks"] == [
         %{
           "details" => "Example Task 1",
           "task_no" => 1
@@ -347,10 +347,10 @@ defmodule LawadvisorWeb.TaskControllerTest do
       }
 
       conn = post(conn, Routes.task_path(conn, :move), params)
-      assert json_response(conn, 200) == "Successfully moved task"
+      assert json_response(conn, 200)["message"] == "Successfully moved task"
 
       conn = get(conn, Routes.task_path(conn, :view))
-      assert json_response(conn, 200) == [
+      assert json_response(conn, 200)["tasks"] == [
         %{
           "details" => "Example Task 1",
           "task_no" => 1
@@ -377,10 +377,10 @@ defmodule LawadvisorWeb.TaskControllerTest do
       }
 
       conn = post(conn, Routes.task_path(conn, :move), params)
-      assert json_response(conn, 200) == "Successfully moved task"
+      assert json_response(conn, 200)["message"] == "Successfully moved task"
 
       conn = get(conn, Routes.task_path(conn, :view))
-      assert json_response(conn, 200) == [
+      assert json_response(conn, 200)["tasks"] == [
         %{
           "details" => "Example Task 4",
           "task_no" => 1
@@ -437,7 +437,7 @@ defmodule LawadvisorWeb.TaskControllerTest do
 
       params = %{
         task_no: 4,
-        new_task_no: 5
+        new_task_no: 9
       }
 
       conn = post(conn, Routes.task_path(conn, :move), params)

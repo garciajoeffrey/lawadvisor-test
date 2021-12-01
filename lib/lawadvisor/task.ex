@@ -35,6 +35,8 @@ defmodule Lawadvisor.Task do
 
     {%{}, fields}
     |> Changeset.cast(params, Map.keys(fields))
+    |> Changeset.validate_required(:task_no, message: "Enter task number")
+    |> Changeset.validate_required(:new_task_no, message: "Enter new task number")
     |> Changeset.validate_number(:task_no, greater_than: 0, message: "Task number is invalid")
     |> Changeset.validate_number(:new_task_no, greater_than: 0, message: "New task number is invalid")
     |> validate_new_task_no()

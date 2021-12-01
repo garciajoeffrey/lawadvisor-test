@@ -43,7 +43,7 @@ defmodule Lawadvisor.Login do
       Changeset.put_change(changeset, :user_id, user.id)
   end
   defp validate_user_exist(_user, changeset) do
-    Changeset.add_error(changeset, :username, "Invalid password. Please try again.")
+    Changeset.add_error(changeset, :password, "Invalid password. Please try again.")
   end
 
   def login_user(%{user_id: user_id}) do

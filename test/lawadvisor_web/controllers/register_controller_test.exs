@@ -20,7 +20,7 @@ defmodule LawadvisorWeb.RegisterControllerTest do
   describe "register user" do
     test "with valid username and password", %{conn: conn} do
       conn = post(conn, Routes.register_path(conn, :register), @register_attrs)
-      assert json_response(conn, 200) == "User registered successfully"
+      assert json_response(conn, 200)["message"] == "User registered successfully"
     end
 
     test "with username already exist", %{conn: conn} do

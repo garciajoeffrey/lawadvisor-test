@@ -45,4 +45,12 @@ defmodule Lawadvisor.Register do
     |> Repo.insert()
   end
 
+  def get_user(nil), do: nil
+  def get_user(user_id) do
+    User
+    |> where([u], u.id == ^user_id)
+    |> limit(1)
+    |> Repo.one()
+  end
+
 end

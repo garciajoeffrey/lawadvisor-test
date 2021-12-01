@@ -36,7 +36,7 @@ defmodule LawadvisorWeb.LoginControllerTest do
     test "with incorrect password", %{conn: conn} do
       create_user(@login_attrs)
       conn = post(conn, Routes.login_path(conn, :login), @invalid_pass_attrs)
-      assert json_response(conn, 400)["username"] == "Invalid password. Please try again."
+      assert json_response(conn, 400)["password"] == "Invalid password. Please try again."
     end
 
     test "with missing parameters", %{conn: conn} do

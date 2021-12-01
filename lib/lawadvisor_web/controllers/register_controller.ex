@@ -15,7 +15,7 @@ defmodule LawadvisorWeb.RegisterController do
   defp return_result({:ok, _user}, conn) do
     conn
     |> put_status(200)
-    |> render("result.json", result: "User registered successfully")
+    |> render("result.json", result: %{message: "User registered successfully"})
   end
 
   defp return_result({:error, changeset}, conn) do

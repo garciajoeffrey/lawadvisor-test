@@ -33,16 +33,21 @@ defmodule Lawadvisor.Plug.Auth do
 
   """
   def can_access?(conn, _opts) do
-    if Map.get(conn.assigns, :current_user) do
-      conn
-    else
-      conn
-      |> put_status(:unauthorized)
-      |> put_view(LawadvisorWeb.ErrorView)
-      |> render(:"401")
-      # Stop any downstream transformations.
-      |> halt()
-    end
+    conn.assigns[:current_user]
+    |> Lawadvisor.Register.get_user()
+    |> validate_access(conn)
+  end
+
+  def validate_access(nil, conn), do: unauthorized(conn)
+  def validate_access(_user, conn), do: conn
+
+  defp unauthorized(conn) do
+    conn
+    |> put_status(:unauthorized)
+    |> put_view(LawadvisorWeb.ErrorView)
+    |> render(:"401")
+    # Stop any downstream transformations.
+    |> halt()
   end
 
   @doc """

@@ -9,7 +9,7 @@ defmodule LawadvisorWeb.TaskController do
   def view(%{assigns: %{current_user: user}} = conn, _params) do
     user
     |> Task.view_list()
-    |> return_result(conn)
+    |> return_view_result(conn)
   end
   def view(conn, _params), do: return_result(:invalid, conn)
 
@@ -51,16 +51,22 @@ defmodule LawadvisorWeb.TaskController do
 
   defp update_params(params, user), do: Map.put(params, "user_id", user)
 
-  defp return_result({:ok, []}, conn) do
+  defp return_view_result({:ok, []}, conn) do
     conn
     |> put_status(200)
-    |> render("result.json", result: "No tasks to be viewed for this user")
+    |> render("result.json", result: %{message: "No tasks to be viewed for this user"})
+  end
+
+  defp return_view_result({:ok, tasks}, conn) do
+    conn
+    |> put_status(200)
+    |> render("result.json", result: %{tasks: tasks})
   end
 
   defp return_result({:ok, tasks}, conn) do
     conn
     |> put_status(200)
-    |> render("result.json", result: tasks)
+    |> render("result.json", result: %{message: tasks})
   end
 
   defp return_result({:error, changeset}, conn) do

@@ -35,7 +35,7 @@ defmodule Lawadvisor.Repo.Migrations.CreateAddTaskNoFunction do
 
         --- Add latest task number to empty task number
         IF taskNo = 0 THEN
-          SELECT latestTaskNo + 1 INTO taskNo;
+          SELECT coalesce(latestTaskNo, 0) + 1 INTO taskNo;
         END IF;
 
         --- Insert new task
