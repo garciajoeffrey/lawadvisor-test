@@ -2,6 +2,15 @@
 
 Setup a project with your programming language of choice and create an API for managing a TODO list with the following specification:
 
+SETUP
+1) Install phoenix elixir(https://hexdocs.pm/phoenix/installation.html)
+2) Git clone this repository
+3) Move to the cloned repository folder
+3) RUN mix deps.get
+4) RUN mix ecto.create
+4) RUN mix ecto.migrate
+5) RUN mix phx.server
+
 # Register
 
 The user should be able to register with a username and password
